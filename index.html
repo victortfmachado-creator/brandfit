@@ -13,13 +13,11 @@ button{font-family:inherit;font-variant-numeric:inherit}
 input,select,textarea{font-family:inherit;font-size:1rem;color:var(--txt);background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;width:100%;min-height:44px}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)}
 label{display:block;font-size:.78rem;color:var(--txt2);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.4px}
-.num{font-variant-numeric:var(--tabnum)}
 h1,h2,h3{font-weight:700}
 a{color:var(--red2)}
 .appbar{position:sticky;top:0;z-index:50;background:rgba(17,18,20,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 14px 0}
 .appbar .row1{display:flex;align-items:center;gap:10px}
 .logo{width:30px;height:30px;flex:none}
-.logo circle,.logo path{fill:var(--red)}
 .appbar h1{font-size:1.05rem;letter-spacing:.3px}
 .appbar .sub{font-size:.7rem;color:var(--txt3)}
 .badge-mock{margin-left:auto;background:var(--warn);color:#1a1a1a;font-size:.62rem;font-weight:800;padding:3px 8px;border-radius:20px;letter-spacing:.5px;white-space:nowrap}
@@ -36,19 +34,15 @@ a{color:var(--red2)}
 .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
 @media(max-width:640px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
 .muted{color:var(--txt2)}.small{font-size:.78rem}.tiny{font-size:.68rem;color:var(--txt3)}
-.big{font-size:1.55rem;font-weight:800;font-variant-numeric:var(--tabnum)}
 .mid{font-size:1.15rem;font-weight:700;font-variant-numeric:var(--tabnum)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;font-size:.85rem;font-weight:600;cursor:pointer;min-height:44px}
 .btn.primary{background:var(--red);border-color:var(--red);color:#fff}
 .btn.ghost{background:transparent}
 .btn.block{width:100%}
 .btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
 .fab{position:fixed;right:16px;bottom:86px;width:56px;height:56px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:1.6rem;box-shadow:0 6px 20px rgba(224,32,32,.4);cursor:pointer;z-index:40}
 .chip{display:inline-flex;align-items:center;gap:4px;background:var(--card2);border:1px solid var(--line);color:var(--txt2);border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:600;white-space:nowrap}
-.chip.red{background:var(--red-dim);border-color:rgba(224,32,32,.4);color:var(--red2)}
 .chip.ok{color:var(--ok);border-color:rgba(49,180,107,.35)}
-.chip.warn{color:var(--warn);border-color:rgba(232,161,60,.35)}
 .chip.info{color:var(--info);border-color:rgba(76,155,232,.35)}
 .badge{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--card2);color:var(--txt3);border:1px solid var(--line)}
 .badge.coletado{color:var(--ok);border-color:rgba(49,180,107,.4)}
@@ -58,7 +52,6 @@ a{color:var(--red2)}
 .bar{height:8px;background:var(--bg2);border-radius:6px;overflow:hidden}
 .bar>div{height:100%;background:var(--red);border-radius:6px;transition:width .3s}
 .bar.ok>div{background:var(--ok)}
-.bar.warn>div{background:var(--warn)}
 .kpi{background:var(--card2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer}
 .kpi .v{font-size:1.3rem;font-weight:800;font-variant-numeric:var(--tabnum)}
 .kpi .l{font-size:.66rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
@@ -147,8 +140,8 @@ textarea{min-height:70px;resize:vertical}
 <div id="toast"></div>
 <div class="modal-bg" id="modal-bg"><div class="modal" id="modal"></div></div>
 
-<script>
-/* PLACEHOLDER — motor completo no próximo commit */
-</script>
+<script src="app.js"></script>
+<script src="ui1.js"></script>
+<script src="ui2.js"></script>
 </body>
 </html>
