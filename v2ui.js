@@ -221,9 +221,9 @@ function renderPdv(){
     </div>
   </div>
   <div class="subtabs">
-    ${subs.map(x=>'<button class="subtab'+(sub===x[0]?" active":"")+"\" onclick=\"ESTADO.subPdv='"+x[0]+"';salvarEstado();go('pdv')\">"+x[1]+'</button>').join("")}
+    ${subs.map(x=>'<button class="subtab'+(sub===x[0]?" active":"")+'" onclick="ESTADO.subPdv=\''+x[0]+'\';salvarEstado();go(\'pdv\')">'+x[1]+'</button>').join("")}
   </div>`;
-  if(sub==="anamnese") h+=secAnamnese(p);
+  if(sub==="anamnese") h+=secAnamneseV2(p); /* fix v7b: dispatch para a v2 (v1 + bloco 6) */
   else if(sub==="diagnostico") h+=secDiagnostico(p,v);
   else if(sub==="kpis") h+=secKpis(p);
   else if(sub==="estrategia") h+=secEstrategia(p);
@@ -234,8 +234,11 @@ function renderPdv(){
   return h;
 }
 /* anamnese v1 + bloco 6 (economia e canal) */
-const secAnamneseV1=secAnamnese;
-function secAnamnese(p){
+/* fix v7b: função com nome próprio — secAnamneseV1 (v1, ui1.js) + bloco 6.
+   Antes: const secAnamneseV1=secAnamnese; function secAnamnese(){...} — o hoisting
+   fazia V1 capturar a própria nova e a Coleta entrava em recursão infinita. */
+const secAnamneseV1=(typeof secAnamnese==="function"&&secAnamnese!==secAnamneseV2)?secAnamnese:null;
+function secAnamneseV2(p){
   return secAnamneseV1(p)+`<div class="card"><h3>6 · Economia do ponto e canal <span class="hint">alimenta 💰 Economia e 🚚 Canal</span></h3>
     <div class="grid g2">
       <div><label>Canal</label><select onchange="anamSave('${p.id}','canal',this.value)">
@@ -302,7 +305,7 @@ function secCanal(p){
   const ts=tradeSpend(p);
   const ad=aderenciaPolitica();
   const dentro=precoCompliance(p);
-  let h=`<div class="card"><h3>🚚 Canal <span class="hint">on-trade e off-trade são economias distintas</span></h3>
+  let h=`<div class="card"><h3>🚚 Canal <span class="hint">on/off-trade são economias distintas</span></h3>
     <div class="grid g2">
       <div class="kpi"><div class="v" style="font-size:.95rem">${esc(CANAL_NOME[canal])}</div><div class="l">canal do PDV</div><div class="m">${p.canal?"informado na anamnese":"derivado do tipo "+esc(p.tipo)} ${badgeOrigem(p.canal?"coletado":"estimado")}</div></div>
       <div class="kpi"><div class="v" style="font-size:.95rem">${esc(p.subtipo_compra||"—")}</div><div class="l">subtipo de compra</div><div class="m">direto · distribuidor · atacado</div></div>
@@ -334,7 +337,7 @@ function secCanal(p){
 /* ---------- F6 · Evolução e prova ---------- */
 function secEvolucao(p){
   const hist=HIST[p.id]||[], d=deltasPDV(p);
-  let h=`<div class="card"><h3>📈 Evolução do PDV <span class="hint">prova de que o share subiu</span></h3>`;
+  let h=`<div class="card"><h3>📈 Evolução <span class="hint">prova de que o share subiu</span></h3>`;
   if(!hist.length){
     h+=`<div class="aviso">Sem medições ainda. A primeira visita grava a linha de base — nada de resultado antes de 2 medições reais.</div>`;
   } else if(hist.length===1){
@@ -468,3 +471,6 @@ const marcarFeitaV1=marcarFeita;
 marcarFeita=function(id){ marcarFeitaV1(id); if(ESTADO.visitas[id]==="concluido"){ gravarMedicao(id); toast("Medição gravada — série temporal atualizada"); } };
 if(!ESTADO.rotaDia) ESTADO.rotaDia={n:PARAMS.rota_n_default, ids:null, data:"hoje"};
 go(ESTADO.aba||"hoje");
+
+/* fix v7b: secAnamnese global = v1 + bloco 6 (atribuição em runtime, sem hoisting) */
+secAnamnese=secAnamneseV2;
