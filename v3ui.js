@@ -3,6 +3,7 @@
    - Tipografia de rua (números grandes)
    - Aba Visões removida (4 abas)
    - PDV = analista de marca: marca foco, ataque por marca, concorrência por grupo
+   Nota: nenhum escape de barra invertida — só interpolação de template.
    ===================================================================== */
 "use strict";
 
@@ -133,7 +134,7 @@ function renderPdv(){
     </div>
   </div>
   <div class="subtabs">
-    ${subs.map(x=>'<button class="subtab'+(sub===x[0]?" active":"")+"\" onclick=\"ESTADO.subPdv='"+x[0]+"';salvarEstado();go('pdv')\">"+x[1]+'</button>').join("")}
+    ${subs.map(x=>`<button class="subtab${sub===x[0]?" active":""}" onclick="ESTADO.subPdv='${x[0]}';salvarEstado();go('pdv')">${x[1]}</button>`).join("")}
   </div>`;
   if(sub==="marca") h+=secMarcaFoco(p,v);
   else if(sub==="concorrencia") h+=secConcorrencia(p,v);
@@ -171,7 +172,7 @@ function secMarcaFoco(p,v){
     h+=`<div class="marca-linha">
       <div class="nm">${esc(m)}</div>
       <div class="pct" style="color:${cor}">${fmtN(cur,1)}%</div>
-      <div class="alv">${esc(at.txt)}${at.gap!=null&&at.gap>2?' · <b style="color:var(--red2)">+'+fmtN(at.gap,1)+' p.p.</b>":""}</div>
+      <div class="alv">${esc(at.txt)}${at.gap!=null&&at.gap>2?" · <b style='color:var(--red2)'>+"+fmtN(at.gap,1)+" p.p.</b>":""}</div>
     </div>`;
   });
   h+=`<div class="tiny" style="margin-top:8px">Cada linha = a alavanca única daquela marca neste PDV. Gap = distância até o fair share do tier (mediana dos PDVs do mesmo canal).</div></div>`;
@@ -313,12 +314,12 @@ function renderConfig(){
     </table><div class="tiny" style="margin-top:6px">Preços das marcas novas (${Object.keys(PORT_V3).join(", ")}) são ${badgeOrigem("estimativa")} — editar abaixo antes de usar em campo.</div>
     <details style="margin-top:10px"><summary class="btn" style="list-style:none">✏️ Editar preços das marcas novas</summary>
     <div style="margin-top:10px">
-      ${Object.keys(PORT_V3).map(m=>'<label>'+m+' — preço de referência (R$)</label><input type="number" step="0.01" value="'+PORT_V3[m].preco+'" onchange="PORT_V3[\''+m+'\'].preco=Number(this.value)||'+PORT_V3[m].preco+';toast(\'Preço salvo: '+m+'\')">').join("")}
+      ${Object.keys(PORT_V3).map(m=>`<label>${m} — preço de referência (R$)</label><input type="number" step="0.01" value="${PORT_V3[m].preco}" onchange="PORT_V3['${m}'].preco=Number(this.value)||${PORT_V3[m].preco};toast('Preço salvo: ${m}')">`).join("")}
     </div></details></div>`;
   h+=`<div class="card"><h3>Painel de parâmetros <span class="hint">fonte e data em cada um</span></h3>
     <details style="margin-top:6px"><summary class="btn" style="list-style:none">✏️ Editar metas e fatores</summary>
     <div style="margin-top:10px">
-      ${["meta_share_ambev","meta_bsv","meta_ruptura_max"].map(k=>'<label>'+k+'</label><input type="number" step="0.01" value="'+PARAMS[k]+'" onchange="paramSave(\''+k+'\',this.value)">').join("")}
+      ${["meta_share_ambev","meta_bsv","meta_ruptura_max"].map(k=>`<label>${k}</label><input type="number" step="0.01" value="${PARAMS[k]}" onchange="paramSave('${k}',this.value)">`).join("")}
       <label>fator de captura — balde</label><input type="number" step="0.01" value="${PARAMS.fator_captura.balde}" onchange="PARAMS.fator_captura.balde=Number(this.value)||0.2;salvarParams()">
       <label>fator de captura — fridge</label><input type="number" step="0.01" value="${PARAMS.fator_captura.fridge}" onchange="PARAMS.fator_captura.fridge=Number(this.value)||0.15;salvarParams()">
       <label>pesos da equidade — demanda/fridge/material/preço</label>
