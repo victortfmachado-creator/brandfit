@@ -1,24 +1,21 @@
 /* =====================================================================
-   BrandFit v8 UI — VISUAL PROFISSIONAL AMBEV (v8.1)
-   Princípios: decisão em 1 linha no topo → números-herói → diagnóstico
-   agrupado → plano de execução consolidado → evidências recolhidas.
-   Denso, sem scroll infinito, mobile-first (uso na rua).
-   Sem backslashes.
+   BrandFit v8 UI — VISUAL PROFISSIONAL AMBEV (v8.2)
+   Hierarquia: decisão em 1 linha → BSV (valor) → números-herói →
+   alavancas de valor → diagnóstico agrupado → plano consolidado →
+   evidências recolhidas. Sem backslashes.
    ===================================================================== */
 "use strict";
 
-/* ---------- design system v8.1 ---------- */
+/* ---------- design system v8.2 ---------- */
 (function(){
   const st=document.createElement("style");
   st.textContent=`
-  /* seção executiva: kicker + título + hint */
   .v8-sec{margin:18px 0 10px}
   .v8-sec .kick{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--red2);margin-bottom:2px}
   .v8-sec .tit{font-size:1.02rem;font-weight:800;color:var(--txt);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .v8-sec .tit .hint{font-size:.68rem;color:var(--txt3);font-weight:400;margin-left:auto;text-align:right}
   .v8-sec .linha{height:2px;background:linear-gradient(90deg,var(--red) 0 42px,var(--line) 42px);border-radius:2px;margin-top:6px}
 
-  /* faixa de decisão (1 linha) */
   .v8-decisao{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--red-dim),rgba(224,32,32,.04));border:1px solid rgba(224,32,32,.35);border-left:4px solid var(--red);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;flex-wrap:wrap}
   .v8-decisao .d-k{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--red2)}
   .v8-decisao .d-t{font-size:.95rem;font-weight:800;color:var(--txt);line-height:1.35}
@@ -27,20 +24,17 @@
   .v8-decisao .d-r .n{font-size:1.3rem;font-weight:800;color:var(--ok);font-variant-numeric:var(--tabnum);line-height:1}
   .v8-decisao .d-r .l{font-size:.62rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em}
 
-  /* KPIs */
-  .v8-hero{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
-  .v8-hero.c4{grid-template-columns:repeat(4,1fr)}
-  @media(max-width:760px){.v8-hero{grid-template-columns:repeat(3,1fr)}.v8-hero.c4{grid-template-columns:repeat(2,1fr)}}
+  .v8-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+  @media(max-width:900px){.v8-hero{grid-template-columns:repeat(2,1fr)}}
   .v8-kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;position:relative;overflow:hidden}
   .v8-kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line)}
   .v8-kpi.ok:before{background:var(--ok)} .v8-kpi.warn:before{background:var(--warn)} .v8-kpi.bad:before{background:var(--red)}
   .v8-kpi .lbl{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3)}
-  .v8-kpi .val{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:.25rem 0;font-variant-numeric:var(--tabnum)}
+  .v8-kpi .val{font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:.25rem 0;font-variant-numeric:var(--tabnum)}
   .v8-kpi .val.red{color:var(--red2)} .v8-kpi .val.green{color:var(--ok)} .v8-kpi .val.yellow{color:var(--warn)}
-  .v8-kpi .sub{font-size:.68rem;color:var(--txt2);line-height:1.4}
+  .v8-kpi .sub{font-size:.66rem;color:var(--txt2);line-height:1.4}
   .v8-kpi.sm .val{font-size:1.35rem}
 
-  /* chips + stepper */
   .v8-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .v8-chip{background:var(--card2);border:1px solid var(--line);border-radius:20px;font-size:.7rem;font-weight:600;padding:4px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
   .v8-chip.red{background:var(--red-dim);border-color:rgba(224,32,32,.4);color:var(--red2)}
@@ -53,11 +47,9 @@
   .v8-step .t{font-size:.62rem;color:var(--txt3);font-weight:400;display:block}
   .v8-step-sep{flex:1;height:1px;background:var(--line);min-width:12px}
 
-  /* grid diagnóstico 2 colunas */
   .v8-duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
   @media(max-width:900px){.v8-duo{grid-template-columns:1fr}}
 
-  /* escada */
   .v8-ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
   .v8-ladder .barra{display:flex;align-items:flex-end;gap:6px;min-width:520px;height:170px;padding:0 6px 20px;border-bottom:2px solid var(--line);overflow-x:auto}
   .v8-pilar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;min-width:48px}
@@ -76,7 +68,6 @@
   .v8-alerta .t{font-size:.74rem;font-weight:700}
   .v8-alerta .d{font-size:.7rem;color:var(--txt2);margin-top:2px;line-height:1.5}
 
-  /* scorecard */
   .v8-score{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
   .v8-score .tit{font-size:1.05rem;font-weight:800;margin:2px 0 10px}
   .v8-score .kicker{font-size:.62rem;font-weight:800;text-transform:uppercase;color:var(--red2);letter-spacing:.08em}
@@ -85,7 +76,6 @@
   .v8-barras .track{background:var(--card2);height:7px;border-radius:99px;overflow:hidden}
   .v8-barras .fill{height:100%;border-radius:99px}
 
-  /* plano: frentes + semanas */
   .v8-frentes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   @media(max-width:760px){.v8-frentes{grid-template-columns:1fr}}
   .v8-frente{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;border-top:3px solid var(--red)}
@@ -99,7 +89,6 @@
   .v8-tl .tag{display:inline-block;background:var(--red);color:#fff;font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
   .v8-tl .desc{font-size:.72rem;color:var(--txt2);line-height:1.45}
 
-  /* accordions */
   .v8-acc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
   .v8-acc>button{width:100%;background:transparent;border:none;color:var(--txt);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:.84rem;font-weight:600;text-align:left;gap:8px}
   .v8-acc>button .esq{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -108,7 +97,6 @@
   .v8-acc.aberto>button .seta{transform:rotate(180deg)}
   .v8-acc>button .seta{transition:transform .2s;color:var(--txt3);flex:none}
 
-  /* badges */
   .v8-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
   .v8-badge.foco{background:var(--red-dim);color:var(--red2);border:1px solid rgba(224,32,32,.35)}
   .v8-badge.sub{background:rgba(224,80,80,.12);color:var(--bad);border:1px solid rgba(224,80,80,.3)}
@@ -118,14 +106,12 @@
   .v8-badge.compl{background:var(--card2);color:var(--txt2);border:1px solid var(--line)}
   .v8-badge.audit{background:rgba(49,180,107,.12);color:var(--ok);border:1px solid rgba(49,180,107,.3);text-transform:uppercase;letter-spacing:.04em}
 
-  /* checklist */
   .v8-check{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:640px){.v8-check{grid-template-columns:1fr}}
   .v8-rate{display:flex;gap:4px}
   .v8-rate button{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--txt2);padding:7px 0;font-size:.78rem;font-weight:700;border-radius:6px;cursor:pointer;min-height:42px}
   .v8-rate button.on{background:var(--red);color:#fff;border-color:var(--red)}
 
-  /* linhas de PDV (Hoje) */
   .v8-grupo{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
   .v8-grupo>.gh{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.8rem;font-weight:700}
   .v8-grupo>.gh .cnt{margin-left:auto;font-size:.66rem;color:var(--txt3);font-weight:600}
@@ -138,7 +124,6 @@
   .v8-row .foco{font-weight:800;color:var(--red2);font-size:.8rem;white-space:nowrap}
   .v8-row .pot{font-size:.72rem;color:var(--ok);font-weight:700;white-space:nowrap;font-variant-numeric:var(--tabnum)}
 
-  /* matriz + quadrantes */
   .v8-quad{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:760px){.v8-quad{grid-template-columns:1fr}}
   .v8-quad .q{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px}
@@ -171,7 +156,7 @@ function v8Sec(kick,titulo,hint){
 }
 
 /* ============================================================
-   SUB-ABA AUDITORIA v8.1
+   SUB-ABA AUDITORIA v8.2
    ============================================================ */
 const secAuditoriaV7=secAuditoria;
 secAuditoria=function(p){
@@ -189,9 +174,12 @@ secAuditoria=function(p){
     <div class="d-r"><div class="n">+${fmtN(a.totalCx,0)} cx</div><div class="l">${fmtBRL(a.totalBRL)}/mês</div></div>
   </div>`;
 
-  /* 2 · NÚMEROS-HERÓI */
+  /* 2 · NÚMEROS-HERÓI (BSV primeiro) */
   const saudeCls=a.saude<50?"bad":a.saude<75?"warn":"ok";
+  const bsvCls=a.bsv.gap>=0?"ok":a.bsv.gap>=-5?"warn":"bad";
   h+=`<div class="v8-hero">
+    <div class="v8-kpi ${bsvCls}"><div class="lbl">💎 Brand share of value</div><div class="val ${bsvCls==="bad"?"red":bsvCls==="warn"?"yellow":"green"}">${fmtN(a.bsv.atual,1)}<span style="font-size:1rem">%</span></div>
+      <div class="sub">fair share de valor dos pares: ${fmtN(a.bsv.fair,1)}% · gap <b style="color:${a.bsv.gap>=0?"var(--ok)":"var(--bad)"}">${a.bsv.gap>0?"+":""}${fmtN(a.bsv.gap,1)} p.p.</b>${a.bsv.gap<0?` · recuperar ≈ ${fmtBRL(a.potBRL)}/mês`:""}</div></div>
     <div class="v8-kpi"><div class="lbl">🎯 Marca foco provada</div><div class="val">${esc(a.foco.m)}</div>
       <div class="sub">score auditado ${a.foco.scoreFinal}/100 · compat. ${a.foco.compat}%</div></div>
     <div class="v8-kpi ok"><div class="lbl">💰 Potencial de recuperação</div><div class="val green">+${fmtN(a.totalCx,0)} <span style="font-size:1rem">cx/mês</span></div>
@@ -214,7 +202,28 @@ secAuditoria=function(p){
     <div class="v8-step ${a.pend?"":"ok"}"><div class="c">${a.pend?"3":"✓"}</div><div>Veredito<span class="t">scorecard auditável</span></div></div>
   </div>`;
 
-  /* 4 · DIAGNÓSTICO: escada + scorecard lado a lado */
+  /* 4 · VALOR (BSV): alavanca nº1 + mapa de valor */
+  h+=v8Sec("Valor","💎 Onde está o dinheiro — alavancas de BSV","share de valor vs fair share de valor dos pares");
+  const al1=a.alavancaBSV;
+  h+=`<div class="v8-decisao" style="border-left-color:var(--warn);background:linear-gradient(90deg,rgba(232,161,60,.12),rgba(232,161,60,.03));border-color:rgba(232,161,60,.35)">
+    <div style="flex:1;min-width:220px">
+      <div class="d-k" style="color:var(--warn)">Alavanca nº 1 de valor</div>
+      <div class="d-t">${al1?`Subir <b>${esc(al1.m)}</b> — ${esc(al1.leitura)}`:`Portfólio em linha com os pares — defender preço e espaço`}</div>
+    </div>
+    ${al1?`<div class="d-r"><div class="n" style="color:var(--warn)">${fmtN(Math.max(0,al1.fsV-al1.vs),1)} p.p.</div><div class="l">de valor a capturar</div></div>`:""}
+  </div>
+  <div class="card">
+    <div style="overflow-x:auto"><table><tr><th>Marca</th><th>Share valor</th><th>Fair valor</th><th>Δ</th><th>Preço</th><th>Leitura do motor</th></tr>
+    ${a.alavancas.map(x=>`<tr><td><b>${esc(x.m)}</b>${x.dono==="ambev"?` <span class="badge coletado">ambev</span>`:""}</td>
+      <td>${fmtN(x.vs,1)}%</td><td>${fmtN(x.fsV,1)}%</td>
+      <td style="color:${x.d<0?"var(--bad)":x.d>2?"var(--ok)":"var(--txt2)"}"><b>${x.d>0?"+":""}${fmtN(x.d,1)}</b> p.p.</td>
+      <td>R$ ${x.pr.toFixed(2)}</td>
+      <td class="tiny"><span class="v8-badge ${x.tipo==="ALAVANCA"?"margem":x.tipo==="DEFESA"?"defesa":x.tipo==="CONTER"?"sub":"compl"}">${x.tipo}</span> ${esc(x.leitura)}</td></tr>`).join("")}
+    </table></div>
+    <div class="tiny" style="margin-top:6px">Prêmio de valor do PDV: <b>${a.bsv.premio>0?"+":""}${fmtN(a.bsv.premio,1)} p.p.</b> (share de valor ${a.bsv.premio>=0?"acima":"abaixo"} do share de volume — ${a.bsv.premio>=0?"mix puxando valor":"mix puxado para preço"}). Nota de valor: <b>${a.notaValor}/100</b>.</div>
+  </div>`;
+
+  /* 5 · DIAGNÓSTICO: escada + scorecard lado a lado */
   h+=v8Sec("Diagnóstico","🪜 Escada de preço & racional da marca foco","pesos declarados, auditável");
   const ladder=[["Itaipava",7,"entrada"],["Brahma",8.5,"core"],["Skol",9,"giro"],["Budweiser",10.5,"core+"],
     ["Spaten",12,"puro malte"],["Original",13.5,"mesa 600"],["Stella",14.5,"sofia"],["Corona",16,"lifestyle"],["Heineken",16.5,"âncora"]];
@@ -260,7 +269,7 @@ secAuditoria=function(p){
     <p class="v8-ration">${a.racional}</p>`;
   h+=`<div class="v8-duo"><div class="v8-ladder">${escada}</div><div class="v8-score">${scorecard}</div></div>`;
 
-  /* 5 · PLANO DE EXECUÇÃO: 3 frentes + 4 semanas */
+  /* 6 · PLANO DE EXECUÇÃO */
   h+=v8Sec("Plano de execução","🎯 3 frentes + 4 semanas","copiável para a equipe");
   h+=`<div class="v8-frentes">
     <div class="v8-frente"><h4>📣 Marketing</h4>${a.mkt.map(t=>`<div class="item">${t}</div>`).join("")}</div>
@@ -270,7 +279,7 @@ secAuditoria=function(p){
   <div class="v8-tl">${a.semanas.map(s=>`<div class="passo"><span class="tag">${s.s}</span><div class="desc">${s.d}</div></div>`).join("")}</div>
   <button class="btn primary block" style="margin-top:10px;min-height:46px" onclick="v8CopiarPlano('${p.id}')">📋 Copiar plano completo (3 frentes + 4 semanas)</button>`;
 
-  /* 6 · EVIDÊNCIAS (accordions — só o essencial aberto) */
+  /* 7 · EVIDÊNCIAS */
   h+=v8Sec("Evidências","📊 De onde vêm os números","clique para expandir");
   const c=ESTADO.checklist[p.id]||{};
   h+=v8Acc("accChecklist","📋 Checklist qualitativo do ponto (5 min)",["Auditoria v8","audit"],a.pend,`
@@ -315,7 +324,7 @@ secAuditoria=function(p){
 
   h+=v8Acc("accRacional","💡 Por quê? — racional estratégico em 3 frases",null,false,`<p class="v8-ration">${a.racional}</p>`);
 
-  /* 7 · VEREDITO v7 compacto */
+  /* 8 · VEREDITO v7 compacto */
   h+=`<div class="card" style="margin-top:12px"><h3>⚖️ Veredito auditável do PDV <span class="hint">pesos declarados</span></h3>
     <div class="grid g3">
       <div class="kpi"><div class="v">${v.notaQuant}</div><div class="l">quantitativa (60%)</div></div>
@@ -368,7 +377,9 @@ function v8CopiarPlano(id){
   const NL=String.fromCharCode(10);
   const t="[BRANDFIT v8 — PLANO DE EXECUÇÃO]"+NL+NL
     +"PDV: "+a.p.nome+" ("+a.p.tipo+" · "+a.p.classe+") · Volume: "+fmtN(volCxV8(a.p),0)+" cx/mês"+NL
+    +"BSV: "+fmtN(a.bsv.atual,1)+"% (fair "+fmtN(a.bsv.fair,1)+"% · gap "+fmtN(a.bsv.gap,1)+" p.p.)"+NL
     +"Marca Foco: "+a.foco.m+" (score "+a.foco.scoreFinal+"/100) | Premium: "+a.margem.m+NL
+    +(a.alavancaBSV?"Alavanca de valor nº1: "+a.alavancaBSV.m+" — "+a.alavancaBSV.leitura+NL+NL:""+NL)
     +"Potencial: +"+fmtN(a.totalCx,0)+" cx/mês ("+fmtBRL(a.totalBRL)+")"+NL
     +"--------------------------------------------------"+NL
     +"🎯 FRENTE MARKETING:"+NL+a.mkt.map(m=>" • "+m).join(NL)+NL+NL
@@ -379,7 +390,7 @@ function v8CopiarPlano(id){
 }
 
 /* ============================================================
-   HOJE v8.1 — agrupado por prioridade
+   HOJE v8.2 — agrupado por prioridade
    ============================================================ */
 const renderHojeV7=renderHoje;
 renderHoje=function(){
@@ -391,7 +402,7 @@ renderHoje=function(){
   const resto=prontos.filter(x=>x.a.foco.scoreFinal<55).sort((a,b)=>b.a.foco.scoreFinal-a.a.foco.scoreFinal);
   const totalCx=scored.reduce((s,x)=>s+x.a.totalCx,0);
 
-  let h=`<div class="v8-hero c4">
+  let h=`<div class="v8-hero">
     <div class="v8-kpi sm"><div class="lbl">PDVs na rota</div><div class="val">${pds.length}</div><div class="sub">base ativa</div></div>
     <div class="v8-kpi sm ok"><div class="lbl">Potencial mapeado</div><div class="val green">+${fmtN(totalCx,0)}</div><div class="sub">cx/mês somados</div></div>
     <div class="v8-kpi sm ${pend.length?"warn":"ok"}"><div class="lbl">Checklist pendente</div><div class="val ${pend.length?"yellow":"green"}">${pend.length}</div><div class="sub">5 min cada</div></div>
@@ -422,7 +433,7 @@ renderHoje=function(){
 };
 
 /* ============================================================
-   TERRITÓRIO v8.1 — KPIs + matriz + quadrantes + ranking com filtros
+   TERRITÓRIO v8.2 — KPIs + matriz + quadrantes + ranking com filtros
    ============================================================ */
 const renderTerritorioV7=renderTerritorio;
 renderTerritorio=function(){
@@ -433,12 +444,13 @@ renderTerritorio=function(){
   const pend=scored.filter(x=>x.a.pend).length;
   const pilotos=(ESTADO.pilotosV8||[]).length;
   const emRisco=scored.filter(x=>x.a.saude<50).length;
+  const bsvMed=scored.length?scored.reduce((s,x)=>s+x.a.bsv.atual,0)/scored.length:0;
 
-  let h=`<div class="v8-hero c4">
+  let h=`<div class="v8-hero">
     <div class="v8-kpi sm"><div class="lbl">PDVs na base</div><div class="val">${pds.length}</div><div class="sub">segmentação homogênea</div></div>
     <div class="v8-kpi sm ok"><div class="lbl">Potencial total</div><div class="val green">+${fmtN(totalCx,0)}</div><div class="sub">cx/mês · ${fmtBRL(totalBRL)}</div></div>
-    <div class="v8-kpi sm ${pend?"warn":"ok"}"><div class="lbl">Perfil quali</div><div class="val ${pend?"yellow":"green"}">${pds.length-pend}/${pds.length}</div><div class="sub">${pend} pendentes de checklist</div></div>
-    <div class="v8-kpi sm ${emRisco?"bad":"ok"}"><div class="lbl">PDVs em risco</div><div class="val ${emRisco?"red":"green"}">${emRisco}</div><div class="sub">saúde &lt; 50 · piloto: ${pilotos}</div></div>
+    <div class="v8-kpi sm"><div class="lbl">BSV médio do território</div><div class="val">${fmtN(bsvMed,1)}%</div><div class="sub">brand share of value</div></div>
+    <div class="v8-kpi sm ${emRisco?"bad":"ok"}"><div class="lbl">PDVs em risco</div><div class="val ${emRisco?"red":"green"}">${emRisco}</div><div class="sub">saúde &lt; 50 · quali: ${pds.length-pend}/${pds.length} · piloto: ${pilotos}</div></div>
   </div>`;
 
   /* matriz scatter */
@@ -498,7 +510,7 @@ renderTerritorio=function(){
         <option value="">Todos os perfis</option>${perfs.map(s=>`<option${f.perf===s?" selected":""}>${s}</option>`).join("")}<option${f.perf==="⚠️ Pendente"?" selected":""}>⚠️ Pendente</option></select>
       <span class="chip">${lista.length} PDVs</span>
     </div>
-    <div style="overflow-x:auto"><table><tr><th>PDV</th><th>Segmento</th><th>Perfil</th><th>Volume</th><th>Marca foco</th><th>Score</th><th>Saúde</th></tr>
+    <div style="overflow-x:auto"><table><tr><th>PDV</th><th>Segmento</th><th>Perfil</th><th>Volume</th><th>BSV</th><th>Marca foco</th><th>Score</th><th>Saúde</th></tr>
     ${lista.map(x=>{
       const saude=x.a.saude<50?["sub","Risco"]:x.a.totalCx>25?["margem","Oportunidade"]:["defesa","Saudável"];
       return `<tr style="cursor:pointer" onclick="abrirPDV('${x.p.id}');ESTADO.subPdv='auditoria';salvarEstado();go('pdv')">
@@ -506,6 +518,7 @@ renderTerritorio=function(){
       <td class="tiny">${esc(x.p.tipo)} · ${esc(x.p.classe)}</td>
       <td>${x.a.pend?`<span class="v8-badge sub">Pendente</span>`:esc(x.a.perfil)}</td>
       <td>${fmtN(volCxV8(x.p),0)} cx</td>
+      <td><b>${fmtN(x.a.bsv.atual,1)}%</b> <span class="tiny" style="color:${x.a.bsv.gap>=0?"var(--ok)":"var(--bad)"}">${x.a.bsv.gap>0?"+":""}${fmtN(x.a.bsv.gap,1)}</span></td>
       <td><b style="color:var(--red2)">${esc(x.a.foco.m)}</b> <span class="tiny">${x.a.foco.gap!=null?(x.a.foco.gap>0?"+":"")+x.a.foco.gap:"—"} p.p.</span></td>
       <td><b>${x.a.foco.scoreFinal}/100</b></td>
       <td><span class="v8-badge ${saude[0]}">${saude[1]}</span></td></tr>`;
