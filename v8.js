@@ -8,8 +8,11 @@
    4. Veredito: 60% quanti + 40% (quali × compat) — pesos declarados
    5. 6 papéis no cardápio: FOCO / MARGEM / ÂNCORA / DEFESA / COMPLEMENTO / SUBSTITUIR
    6. Alertas de escada: âncora quebrada, escada invertida, Petrópolis presente, superindexada
-   7. Saúde do PDV (fórmula do gabarito), potencial total cx + R$
+   7. Saúde do PDV (demos do gabarito), potencial total cx + R$
    8. Plano 3 frentes (marketing/trade/comercial) + 4 semanas + racional 3 frases
+   9. v8.2 — camada de VALOR (BSV): share de valor vs fair share de valor dos pares,
+      alavancas de valor por marca (ALAVANCA/DEFESA/CONTER/NEUTRO), alavanca nº1,
+      potencial de BSV em R$/mês, nota de valor 0-100, prêmio de valor
    Sem backslashes — só interpolação de template.
    ===================================================================== */
 "use strict";
@@ -75,6 +78,17 @@ function recPorCxV8(p){
   let rec=0; CERVEJAS.forEach(m=>rec+=recMarca(p,m));
   const cx=volCxV8(p);
   return cx>0?rec/cx:95;
+}
+/* ---------- camada de VALOR (BSV) — v8.2: avalia o PDV para aumentar brand share of value ---------- */
+function valorShareMarca(p,m){
+  const t=recTotalMes(p); return t>0?recMarca(p,m)/t*100:0;
+}
+function bsvV8(p){
+  const vsAmbev=recTotalMes(p)>0?AMBEV.reduce((a,m)=>a+recMarca(p,m),0)/recTotalMes(p)*100:0;
+  const pares=paresV8(p);
+  const fsV=pares.length?pares.reduce((a,x)=>a+(recTotalMes(x)>0?AMBEV.reduce((b,m)=>b+recMarca(x,m),0)/recTotalMes(x)*100:0),0)/pares.length:0;
+  return {atual:+vsAmbev.toFixed(1), fair:+fsV.toFixed(1), gap:+(vsAmbev-fsV).toFixed(1),
+    premio:+(vsAmbev-ambevShare(p)).toFixed(1)};
 }
 
 /* ---------- fair share dos pares por marca (gabarito: média de todos os pares) ---------- */
@@ -236,6 +250,32 @@ function analyticsV8(p){
   /* racional (máx 3 frases, gabarito) */
   const racional="O PDV "+p.nome+" opera com "+fmtN(volCxV8(p),0)+" caixas/mês, mas apresenta gap reprimido de "+fmtN(Math.abs(foco.gap||0),1)+" p.p. em "+foco.m+" frente aos pares de "+p.classe+". Ajustar a âncora da concorrência e destacar a premium "+margem.m+" recupera margem imediatamente sem atrito com o consumidor. Com essa execução, o ponto desbloqueia +"+fmtN(totalCx,0)+" caixas/mês em receita de alto valor.";
 
+  /* ---------- BSV: diagnóstico de valor + alavanca por marca (v8.2) ---------- */
+  const bsv=bsvV8(p);
+  /* alavanca de valor por marca: quanto de BSV a marca ganha ou perde vs fair share de valor */
+  const alavancas=CERVEJAS.map(m=>{
+    const vs=valorShareMarca(p,m);
+    const fsV=pares.length?pares.reduce((a,x)=>a+valorShareMarca(x,m),0)/pares.length:0;
+    const d=+(vs-fsV).toFixed(1);
+    const dono=(PORT[m]||PORT_V3[m]).dono;
+    const pr=preco[m];
+    const g=gapAnalysis.find(x=>x.m===m);
+    /* leitura: marca Ambev abaixo do fair share de valor = alavanca de BSV */
+    let leitura, tipo;
+    if(dono==="ambev"&&d<-1){ tipo="ALAVANCA"; leitura="valor abaixo dos pares ("+vs.toFixed(1)+"% vs "+fsV.toFixed(1)+"%) — subir mix/preço aqui é BSV direto"; }
+    else if(dono==="ambev"&&d>2){ tipo="DEFENDER"; leitura="valor acima dos pares (+"+d.toFixed(1)+" p.p.) — proteger preço e espaço"; }
+    else if(dono!=="ambev"&&d>2){ tipo="CONTER"; leitura="concorrente capturando valor acima do normal ("+vs.toFixed(1)+"% vs "+fsV.toFixed(1)+"%) — atacar com premium da casa"; }
+    else { tipo="NEUTRO"; leitura="valor em linha com os pares"; }
+    return {m, vs:+vs.toFixed(1), fsV:+fsV.toFixed(1), d, dono, pr, gapVol:g?g.gap:null, tipo, leitura};
+  }).sort((a,b)=>(a.dono==="ambev"?a.d:99)-(b.dono==="ambev"?b.d:99));
+  /* alavanca nº1 de BSV: marca Ambev com maior déficit de valor */
+  const alavancaBSV=alavancas.find(x=>x.tipo==="ALAVANCA")||null;
+  /* potencial de BSV: fechar o gap de valor da Ambev no PDV (R$/mês) */
+  const potBRL=bsv.gap<0?Math.abs(bsv.gap)/100*recTotalMes(p):0;
+  /* nota de valor 0-100: share de valor vs fair + prêmio de valor */
+  const notaValor=Math.max(0,Math.min(100,Math.round(50+bsv.gap*2.5+bsv.premio*1.5)));
+
   return {p, perfil, pend, perf, pares, gapAnalysis, foco, margem, cardapio, priceAlerts, saude,
-    totalCx, totalBRL, rCx, heiTheft, itaTheft, mkt, trade, comercial, ativos, semanas, racional, preco};
+    totalCx, totalBRL, rCx, heiTheft, itaTheft, mkt, trade, comercial, ativos, semanas, racional, preco,
+    bsv, alavancas, alavancaBSV, potBRL, notaValor};
 }
